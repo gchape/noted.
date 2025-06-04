@@ -23,30 +23,31 @@
 }
 
 .nav-link {
-  color: #f1f1f1 !important;
+  color: #f8f9fa !important;
 
   font-weight: 500 !important;
   font-size: 1.05rem !important;
 
-  padding-bottom: 0.2rem !important;
+  padding-bottom: 0.25rem !important;
 
   transition: color 0.3s ease, border-color 0.3s ease;
   border-bottom: 2px solid transparent;
 }
 
 .nav-link:hover {
-  color: #8da7a3 !important;
+  color: #ced4da !important;
+  border-bottom-color: rgba(206, 212, 218, 0.6);
 }
 
 .nav-link.active {
   font-weight: 600 !important;
-
-  color: #f1f1f1 !important;
-  border-bottom: 2px solid rgba(116, 143, 139, 0.7);
+  color: #ffffff !important;
+  border-bottom: 2px solid #adb5bd;
 }
 
 .nav-link.active:hover {
-  color: #f1f1f1 !important;
+  color: #ffffff !important;
+  border-bottom-color: #adb5bd;
 }
 
 .offcanvas-header {

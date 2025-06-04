@@ -1,6 +1,7 @@
 import type { JSX } from "react";
 import { useState } from "react";
 import { Nav } from "react-bootstrap";
+import { NavLink } from "react-router";
 import Search from "../features/Search";
 
 import "./styles/SideBar.css";
@@ -10,7 +11,7 @@ const SideBar = (): JSX.Element => {
 
   return (
     <aside
-      className={`sidebar d-flex flex-column p-3 ${isOpen ? "open" : "closed"}`}
+      className={`sidebar d-flex flex-column ${isOpen ? "open p-3" : "closed"}`}
     >
       <button
         className="sidebar-toggle"
@@ -25,16 +26,24 @@ const SideBar = (): JSX.Element => {
           <Search />
           <hr className="my-3" />
 
-          <h6 className="text-muted">Favorites</h6>
+          <h6>Favorites</h6>
           <Nav className="flex-column mb-3">
-            <Nav.Link href="/favorites">All Favorites</Nav.Link>
+            <Nav.Link as={NavLink} to="/favorites">
+              All Favorites
+            </Nav.Link>
           </Nav>
 
-          <h6 className="text-muted">Tags</h6>
+          <h6>Tags</h6>
           <Nav className="flex-column">
-            <Nav.Link href="/tags/work">Work</Nav.Link>
-            <Nav.Link href="/tags/personal">Personal</Nav.Link>
-            <Nav.Link href="/tags/ideas">Ideas</Nav.Link>
+            <Nav.Link as={NavLink} to="/tags/work">
+              Work
+            </Nav.Link>
+            <Nav.Link as={NavLink} to="/tags/personal">
+              Personal
+            </Nav.Link>
+            <Nav.Link as={NavLink} to="/tags/ideas">
+              Ideas
+            </Nav.Link>
           </Nav>
         </>
       )}
