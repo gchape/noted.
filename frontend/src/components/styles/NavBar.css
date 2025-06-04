@@ -1,0 +1,60 @@
+.logo {
+  height: 4vh;
+  max-height: 48px;
+
+  object-fit: contain;
+  object-position: center;
+}
+
+.navbar {
+  height: 10vh;
+  padding: 0 1rem !important;
+
+  background-color: #dc3545 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-toggler {
+  border: none;
+}
+
+.navbar-toggler:focus {
+  box-shadow: none;
+}
+
+.nav-link {
+  color: #f1f1f1 !important;
+
+  font-weight: 500 !important;
+  font-size: 1.05rem !important;
+
+  padding-bottom: 0.2rem !important;
+
+  transition: color 0.3s ease, border-color 0.3s ease;
+  border-bottom: 2px solid transparent;
+}
+
+.nav-link:hover {
+  color: #8da7a3 !important;
+}
+
+.nav-link.active {
+  font-weight: 600 !important;
+
+  color: #f1f1f1 !important;
+  border-bottom: 2px solid rgba(116, 143, 139, 0.7);
+}
+
+.nav-link.active:hover {
+  color: #f1f1f1 !important;
+}
+
+.offcanvas-header {
+  border-bottom: 1px solid #dee2e6;
+}
+
+.offcanvas-body {
+  padding-top: 1rem;
+
+  background-color: #dc3545 !important;
+}
