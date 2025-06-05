@@ -1,17 +1,19 @@
 import express, { urlencoded } from "express";
-import connectDB from "./config/db";
-import dotenv from "dotenv";
 import noteRoutes from "./routes/noteRoutes";
 import userRoutes from "./routes/userRoutes";
+import connectDB from "./config/db";
+import dotenv from "dotenv";
+import cors from "cors";
 dotenv.config();
 
 connectDB();
 
 const app = express();
 
-const host = process.env.HOST || "locahost";
-const port = Number(process.env.PORT) || 3000;
+const host = process.env.HOST!;
+const port = Number(process.env.PORT)!;
 
+app.use(cors());
 app.use(express.json());
 app.use(urlencoded({ extended: true }));
 

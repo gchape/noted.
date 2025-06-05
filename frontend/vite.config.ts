@@ -10,9 +10,8 @@ export default defineConfig(({ mode }) => {
       host: env.HOST,
       port: Number(env.PORT),
     },
-    root: "./src",
     build: {
-      outDir: "../dist",
+      outDir: "./dist",
     },
   };
 });

@@ -17,26 +17,26 @@
 }
 
 .sidebar.closed {
-  width: 30px;
+  width: 25px;
   padding: 0 !important;
 }
 
 .sidebar-toggle {
+  height: 40px !important;
+  width: fit-content !important;
+
+  padding: 0 !important;
   position: absolute;
   top: 50%;
   right: 0;
 
   color: #dc3545;
-
   background-color: #f8f9fa;
   border: 1px solid #dee2e6;
-  border-left: none;
-  border-radius: 0 4px 4px 0;
 
   line-height: 1;
   cursor: pointer;
-  padding: 4px 6px;
-  font-size: 1rem;
+  font-size: 1.5rem;
 
   z-index: 901;
 

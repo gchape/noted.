@@ -13,29 +13,40 @@ router.post(
   asyncHandler(async (req, res) => {
     const { name, email, password } = req.body;
 
-    if (!name || !email || !password) {
-      return res.status(400).json({ message: "All fields are required." });
-    }
-
     if (password.length < 6) {
-      return res
-        .status(400)
-        .json({ message: "Password must be at least 6 characters." });
+      return res.status(400).json({
+        success: false,
+        message: "Password must be at least 6 characters.",
+      });
     }
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(409).json({ message: "User already exists." });
+      return res
+        .status(409)
+        .json({ success: false, message: "User already exists." });
     }
 
-    const newUser = await User.create({
-      name,
-      email,
-      password: await bcrypt.hash(password, 10),
-    });
+    try {
+      const newUser = await User.create({
+        name,
+        email,
+        password: await bcrypt.hash(password, 10),
+      });
 
-    const { password: _, ...user } = newUser.toObject();
-    res.status(201).json(user);
+      const { password: _, ...userWithoutPassword } = newUser.toObject();
+      res
+        .status(201)
+        .json({
+          success: true,
+          user: userWithoutPassword,
+          message: "Registration successful.",
+        });
+    } catch (error) {
+      res
+        .status(500)
+        .json({ success: false, message: "Server error, please try again." });
+    }
   })
 );
 
@@ -45,25 +56,26 @@ router.post(
   asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
-    if (!email || !password) {
-      return res
-        .status(400)
-        .json({ message: "Email and password are required." });
-    }
-
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({ message: "Invalid credentials." });
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid email or password." });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({ message: "Invalid credentials." });
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid email or password." });
     }
 
     const jwtSecret = process.env.JWT_SECRET;
     if (!jwtSecret) {
-      throw new Error("JWT_SECRET is not defined in environment variables");
+      return res.status(500).json({
+        success: false,
+        message: "Server error, JWT secret is missing.",
+      });
     }
 
     const token = jwt.sign({ userId: user._id }, jwtSecret, {
@@ -78,20 +90,24 @@ router.post(
     });
 
     const { password: _, ...userWithoutPassword } = user.toObject();
-    res.json({ message: "Login successful", user: userWithoutPassword });
+    res.json({
+      success: true,
+      message: "Login successful.",
+      user: userWithoutPassword,
+    });
   })
 );
 
 // Logout user
 router.post(
   "/logout",
-  asyncHandler(async (_req, res) => {
+  asyncHandler(async (_, res) => {
     res.cookie("jwt", "", {
       httpOnly: true,
       expires: new Date(0),
     });
 
-    res.status(200).json({ message: "Logout successful" });
+    res.status(200).json({ success: true, message: "Logout successful." });
   })
 );
 
@@ -103,10 +119,12 @@ router.get(
     const user = await User.findById(req.userId).select("-password");
 
     if (!user) {
-      return res.status(404).json({ message: "User not found." });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found." });
     }
 
-    res.json(user);
+    res.json({ success: true, user });
   })
 );
 
