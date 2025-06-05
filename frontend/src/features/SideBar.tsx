@@ -14,7 +14,7 @@ const SideBar = (): JSX.Element => {
       className={`sidebar d-flex flex-column ${isOpen ? "open p-3" : "closed"}`}
     >
       <button
-        className="sidebar-toggle"
+        className="sidebar-toggle d-flex justofy-content-center align-items-center"
         onClick={() => setIsOpen((prev) => !prev)}
         aria-label="Toggle sidebar"
       >

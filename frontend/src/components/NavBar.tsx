@@ -40,11 +40,11 @@ const NavBar = ({ expand }: NavBarProps): JSX.Element => {
               <Nav.Link as={NavLink} to="/">
                 Home
               </Nav.Link>
-              <Nav.Link as={NavLink} to="/favorites">
-                Favorites
+              <Nav.Link as={NavLink} to="/login">
+                Log In
               </Nav.Link>
-              <Nav.Link as={NavLink} to="/tags">
-                Tags
+              <Nav.Link as={NavLink} to="/register">
+                Register
               </Nav.Link>
             </Nav>
           </Offcanvas.Body>
