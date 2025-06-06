@@ -2,6 +2,7 @@ import { Router } from "express";
 import asyncHandler from "../middleware/asyncHandler";
 import Note from "../models/noteModel";
 import { protect } from "../middleware/authMiddleware";
+import mongoose from "mongoose";
 
 const router = Router();
 
@@ -15,18 +16,19 @@ router.get(
   })
 );
 
-// Get single note by ID (only if belongs to user)
+// Get unique tags for a user's notes
 router.get(
-  "/:id",
+  "/tags",
   protect,
   asyncHandler(async (req, resp) => {
-    const note = await Note.findOne({ _id: req.params.id, user: req.userId });
+    const tags = await Note.aggregate([
+      { $match: { user: new mongoose.Types.ObjectId(req.userId) } },
+      { $unwind: "$tags" },
+      { $group: { _id: "$tags" } },
+      { $sort: { _id: 1 } },
+    ]);
 
-    if (!note) {
-      return resp.status(404).json({ message: "Note not found" });
-    }
-
-    return resp.json(note);
+    return resp.json(tags.map((t) => t._id));
   })
 );
 
@@ -53,23 +55,6 @@ router.post(
     });
 
     return resp.status(201).json(newNote);
-  })
-);
-
-// Delete note (only if owned by user)
-router.delete(
-  "/:id",
-  protect,
-  asyncHandler(async (req, resp) => {
-    const note = await Note.findOne({ _id: req.params.id, user: req.userId });
-
-    if (!note) {
-      return resp.status(404).json({ message: "Note not found" });
-    }
-
-    await note.deleteOne();
-
-    return resp.json({ message: "Note deleted" });
   })
 );
 

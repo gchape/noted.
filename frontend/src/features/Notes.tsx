@@ -1,20 +1,36 @@
 import { useState } from "react";
 import { Container, Row, Col, Spinner, Pagination } from "react-bootstrap";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+import { useLocation } from "react-router";
 import Note from "../components/Note";
+
 import api from "../app/api";
 
-const fetchNotes = async () => {
-  const { data } = await api.get<Note[]>("/api/notes");
+const fetchNotes = async (path: string, search: string) => {
+  const params = new URLSearchParams();
+
+  if (path === "/favorites") {
+    params.set("favourite", "true");
+  } else if (path.startsWith("/tags/")) {
+    const tag = path.split("/tags/")[1];
+    params.set("tag", tag);
+  }
+
+  if (search) {
+    const query = new URLSearchParams(search);
+    query.forEach((val, key) => {
+      params.set(key, val);
+    });
+  }
+
+  const queryStr = params.toString();
+  const url = queryStr ? `/api/notes/search?${queryStr}` : `/api/notes/`;
+  const { data } = await api.get(url);
   return data;
 };
 
-const deleteNote = async (id: string) => {
-  await api.delete(`/api/notes/${id}`);
-};
-
 export default function Notes() {
-  const queryClient = useQueryClient();
+  const location = useLocation();
   const [currentPage, setCurrentPage] = useState(1);
   const notesPerPage = 8;
 
@@ -23,18 +39,9 @@ export default function Notes() {
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["notes"],
-    queryFn: fetchNotes,
+    queryKey: ["notes", location.pathname, location.search],
+    queryFn: () => fetchNotes(location.pathname, location.search),
     retry: false,
-  });
-
-  const { mutate: deleteNoteMutate } = useMutation({
-    mutationFn: deleteNote,
-    onSuccess: (_, id) => {
-      queryClient.setQueryData(["notes"], (old: any) =>
-        old.filter((note: any) => note._id !== id)
-      );
-    },
   });
 
   if (isLoading) {
@@ -67,12 +74,12 @@ export default function Notes() {
     >
       <div
         style={{ flex: 1, overflowY: "auto" }}
-        className="d-flex justify-content-center"
+        className="d-flex justify-content-center align-items-start"
       >
         <Row xs={1} sm={2} md={3} lg={4} className="g-4 w-100">
           {currentNotes.map((note: any) => (
             <Col key={note._id} className="d-flex justify-content-center">
-              <Note note={note} onDelete={(id) => deleteNoteMutate(id)} />
+              <Note note={note} />
             </Col>
           ))}
         </Row>

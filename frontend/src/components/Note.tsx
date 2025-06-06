@@ -1,14 +1,8 @@
-import { Card, Button } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 
 import "./styles/Note.css";
 
-const Note = ({
-  note,
-  onDelete,
-}: {
-  note: Note;
-  onDelete: (id: string) => void;
-}) => {
+const Note = ({ note }: { note: Note }) => {
   return (
     <Card className="note-card mb-3">
       <Card.Body className="d-flex flex-column">
@@ -30,17 +24,12 @@ const Note = ({
             : `${note?.content?.slice(0, 150)}...`}
         </Card.Text>
 
-        <div className="d-flex justify-content-between align-items-center mt-auto">
-          <div className="note-tags">
-            {note.tags.map((tag) => (
-              <span key={tag} className="badge bg-secondary">
-                {tag}
-              </span>
-            ))}
-          </div>
-          <Button variant="danger" size="sm" onClick={() => onDelete(note._id)}>
-            Delete
-          </Button>
+        <div className="note-tags">
+          {note.tags.map((tag) => (
+            <span key={tag} className="badge bg-secondary">
+              {tag}
+            </span>
+          ))}
         </div>
       </Card.Body>
     </Card>
