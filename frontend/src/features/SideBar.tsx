@@ -5,9 +5,12 @@ import { NavLink } from "react-router";
 import Search from "../features/Search";
 
 import "./styles/SideBar.css";
+import { useSelector } from "react-redux";
+import type { RootState } from "../store/store";
 
 const SideBar = (): JSX.Element => {
   const [isOpen, setIsOpen] = useState(true);
+  const user = useSelector((state: RootState) => state.user.user);
 
   return (
     <aside
@@ -25,6 +28,12 @@ const SideBar = (): JSX.Element => {
         <>
           <Search />
           <hr className="my-3" />
+
+          {user && (
+            <h6 className="sidebar-greeting">
+              Hi, <span className="sidebar-username">{user.name}</span>
+            </h6>
+          )}
 
           <h6>Favorites</h6>
           <Nav className="flex-column mb-3">

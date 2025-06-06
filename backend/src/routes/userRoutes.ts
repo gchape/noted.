@@ -35,13 +35,11 @@ router.post(
       });
 
       const { password: _, ...userWithoutPassword } = newUser.toObject();
-      res
-        .status(201)
-        .json({
-          success: true,
-          user: userWithoutPassword,
-          message: "Registration successful.",
-        });
+      res.status(201).json({
+        success: true,
+        user: userWithoutPassword,
+        message: "Registration successful.",
+      });
     } catch (error) {
       res
         .status(500)

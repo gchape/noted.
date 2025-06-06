@@ -1,43 +1,46 @@
 import { Router } from "express";
 import asyncHandler from "../middleware/asyncHandler";
 import Note from "../models/noteModel";
+import { protect } from "../middleware/authMiddleware";
 
 const router = Router();
 
-// Get all notes
+// Get all notes for authenticated user
 router.get(
   "/",
-  asyncHandler(async (_, resp) => {
-    const notes = await Note.find({});
+  protect,
+  asyncHandler(async (req, resp) => {
+    const notes = await Note.find({ user: req.userId });
     return resp.json(notes);
   })
 );
 
-// Get single note by ID
+// Get single note by ID (only if belongs to user)
 router.get(
   "/:id",
+  protect,
   asyncHandler(async (req, resp) => {
-    const id = req.params.id;
-    const note = await Note.findById(id);
+    const note = await Note.findOne({ _id: req.params.id, user: req.userId });
 
-    if (note) {
-      return resp.json(note);
+    if (!note) {
+      return resp.status(404).json({ message: "Note not found" });
     }
 
-    resp.status(404).json({ message: "Note not found" });
+    return resp.json(note);
   })
 );
 
-// Create a new note
+// Create a new note (assign user from token)
 router.post(
   "/",
+  protect,
   asyncHandler(async (req, resp) => {
-    const { title, content, url, tags, favourite, user } = req.body;
+    const { title, content, url, tags, favourite } = req.body;
 
-    if (!title || !content || !user) {
+    if (!title || !content) {
       return resp
         .status(400)
-        .json({ message: "Title, content, and user are required." });
+        .json({ message: "Title and content are required." });
     }
 
     const newNote = await Note.create({
@@ -46,19 +49,21 @@ router.post(
       url,
       tags: tags || [],
       favourite: favourite || false,
-      user,
+      user: req.userId,
     });
 
     return resp.status(201).json(newNote);
   })
 );
 
-// Update an existing note
+// Update existing note (only if owned by user)
 router.put(
   "/:id",
+  protect,
   asyncHandler(async (req, resp) => {
     const { title, content, url, tags, favourite } = req.body;
-    const note = await Note.findById(req.params.id);
+
+    const note = await Note.findOne({ _id: req.params.id, user: req.userId });
 
     if (!note) {
       return resp.status(404).json({ message: "Note not found" });
@@ -72,32 +77,36 @@ router.put(
       typeof favourite === "boolean" ? favourite : note.favourite;
 
     const updatedNote = await note.save();
+
     return resp.json(updatedNote);
   })
 );
 
-// Delete a note
+// Delete note (only if owned by user)
 router.delete(
   "/:id",
+  protect,
   asyncHandler(async (req, resp) => {
-    const note = await Note.findById(req.params.id);
+    const note = await Note.findOne({ _id: req.params.id, user: req.userId });
 
     if (!note) {
       return resp.status(404).json({ message: "Note not found" });
     }
 
     await note.deleteOne();
+
     return resp.json({ message: "Note deleted" });
   })
 );
 
+// Search notes belonging to user
 router.get(
   "/search",
+  protect,
   asyncHandler(async (req, resp) => {
     const { query, tag, favourite } = req.query;
 
-    // Build dynamic filter
-    const filters: any = {};
+    const filters: any = { user: req.userId };
 
     if (query) {
       filters.$or = [
