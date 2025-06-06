@@ -3,6 +3,7 @@ import Home from "../components/Home";
 import Login from "../features/Login";
 import Register from "../features/Register";
 import AddNote from "../components/AddNote";
+import Notes from "../features/Notes";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: "add",
         Component: AddNote,
+      },
+      {
+        index: true,
+        Component: Notes,
       },
     ],
   },

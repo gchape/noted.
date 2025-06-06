@@ -2,10 +2,9 @@ export {};
 
 declare global {
   type User = {
+    _id: string;
     name: string;
     email: string;
-    createdAt: string;
-    updatedAt: string;
   };
 
   type Note = {
@@ -18,11 +17,5 @@ declare global {
     favourite: boolean;
     createdAt: string;
     updatedAt: string;
-  };
-
-  type User = {
-    _id: string;
-    name: string;
-    email: string;
   };
 }
