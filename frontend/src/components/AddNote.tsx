@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Form, Button, Container } from "react-bootstrap";
-import axios from "axios";
 import type { JSX } from "react";
 import { useNavigate } from "react-router";
 
 import "../features/styles/Auth.css";
+import api from "../app/api";
 
 const AddNote = (): JSX.Element => {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ const AddNote = (): JSX.Element => {
       .map((tag) => tag.trim())
       .filter(Boolean);
 
-    await axios.post(`${import.meta.env.VITE_API_URL}/api/notes`, {
+    await api.post("/api/notes", {
       title,
       url,
       content,

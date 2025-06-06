@@ -56,32 +56,6 @@ router.post(
   })
 );
 
-// Update existing note (only if owned by user)
-router.put(
-  "/:id",
-  protect,
-  asyncHandler(async (req, resp) => {
-    const { title, content, url, tags, favourite } = req.body;
-
-    const note = await Note.findOne({ _id: req.params.id, user: req.userId });
-
-    if (!note) {
-      return resp.status(404).json({ message: "Note not found" });
-    }
-
-    note.title = title ?? note.title;
-    note.content = content ?? note.content;
-    note.url = url ?? note.url;
-    note.tags = tags ?? note.tags;
-    note.favourite =
-      typeof favourite === "boolean" ? favourite : note.favourite;
-
-    const updatedNote = await note.save();
-
-    return resp.json(updatedNote);
-  })
-);
-
 // Delete note (only if owned by user)
 router.delete(
   "/:id",
