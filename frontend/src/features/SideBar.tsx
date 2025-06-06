@@ -1,16 +1,27 @@
-import type { JSX } from "react";
-import { useState } from "react";
+import { useState, type JSX } from "react";
 import { Nav } from "react-bootstrap";
 import { NavLink } from "react-router";
 import Search from "../features/Search";
-
-import "./styles/SideBar.css";
 import { useSelector } from "react-redux";
 import type { RootState } from "../store/store";
+import { useQuery } from "@tanstack/react-query";
+import api from "../app/api";
+import "./styles/SideBar.css";
+
+const fetchTags = async (): Promise<string[]> => {
+  const { data } = await api.get<string[]>("/api/notes/tags");
+  return data;
+};
 
 const SideBar = (): JSX.Element => {
   const [isOpen, setIsOpen] = useState(true);
   const user = useSelector((state: RootState) => state.user.user);
+
+  const { data: tags = [], isLoading } = useQuery({
+    queryKey: ["tags"],
+    queryFn: fetchTags,
+    enabled: !!user,
+  });
 
   return (
     <aside
@@ -44,15 +55,17 @@ const SideBar = (): JSX.Element => {
 
           <h6>Tags</h6>
           <Nav className="flex-column">
-            <Nav.Link as={NavLink} to="/tags/work">
-              Work
-            </Nav.Link>
-            <Nav.Link as={NavLink} to="/tags/personal">
-              Personal
-            </Nav.Link>
-            <Nav.Link as={NavLink} to="/tags/ideas">
-              Ideas
-            </Nav.Link>
+            {isLoading ? (
+              <div className="text-muted">Loading tags...</div>
+            ) : tags.length === 0 ? (
+              <div className="text-muted">No tags found</div>
+            ) : (
+              tags.map((tag) => (
+                <Nav.Link as={NavLink} to={`/tags/${tag}`} key={tag}>
+                  {tag}
+                </Nav.Link>
+              ))
+            )}
           </Nav>
         </>
       )}
