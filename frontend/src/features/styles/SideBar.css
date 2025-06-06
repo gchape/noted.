@@ -55,6 +55,14 @@
   text-transform: uppercase;
 }
 
+.sidebar-greeting {
+  margin-top: 12px !important;
+}
+
+.sidebar-username {
+  color: #198754 !important;
+}
+
 .sidebar .nav-link {
   font-weight: 400 !important;
   font-size: 0.95rem !important;

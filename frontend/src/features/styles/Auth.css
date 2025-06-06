@@ -108,18 +108,6 @@
   cursor: not-allowed;
 }
 
-.auth-alert {
-  background: rgba(248, 215, 218, 0.95) !important;
-  border: 1px solid rgba(245, 198, 203, 0.8) !important;
-  color: #721c24 !important;
-  border-radius: 10px !important;
-  padding: 1rem;
-  margin-bottom: 1.5rem;
-  backdrop-filter: blur(10px);
-  font-weight: 500;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
 @media (max-width: 576px) {
   .auth-container {
     padding: 1rem;

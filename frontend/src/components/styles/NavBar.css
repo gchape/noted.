@@ -34,6 +34,15 @@
   border-bottom: 2px solid transparent;
 }
 
+.navbar-text {
+  color: #c1ff07ac !important;
+
+  font-weight: 500 !important;
+  font-size: 1.05rem !important;
+
+  padding-bottom: 0.25rem !important;
+}
+
 .nav-link:hover {
   color: #ced4da !important;
   border-bottom-color: rgba(206, 212, 218, 0.6);

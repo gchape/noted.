@@ -1,15 +1,13 @@
-import type { JSX } from "react";
+import { Outlet } from "react-router";
 import NavBar from "./NavBar";
 import SideBar from "../features/SideBar";
-import { Outlet } from "react-router";
-import { Container } from "react-bootstrap";
+import type { JSX } from "react";
 
 const Home = (): JSX.Element => {
   return (
     <>
       <NavBar expand="lg" />
       <SideBar />
-
       <Outlet />
     </>
   );
