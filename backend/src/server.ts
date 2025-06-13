@@ -1,8 +1,8 @@
 import express, { urlencoded } from "express";
-import noteRoutes from "./routes/noteRoutes";
-import userRoutes from "./routes/userRoutes";
+import noteRoutes from "./routes/noteRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 import cookieParser from "cookie-parser";
-import connectDB from "./config/db";
+import connectDB from "./config/db.js";
 import dotenv from "dotenv";
 import cors from "cors";
 dotenv.config();
