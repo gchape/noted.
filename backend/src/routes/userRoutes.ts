@@ -1,9 +1,9 @@
 import express from "express";
-import asyncHandler from "../middleware/asyncHandler";
-import User from "../models/userModel";
+import asyncHandler from "../middleware/asyncHandler.js";
+import User from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { protect } from "../middleware/authMiddleware";
+import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 

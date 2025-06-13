@@ -1,7 +1,7 @@
 import { Router } from "express";
-import asyncHandler from "../middleware/asyncHandler";
-import Note from "../models/noteModel";
-import { protect } from "../middleware/authMiddleware";
+import asyncHandler from "../middleware/asyncHandler.js";
+import Note from "../models/noteModel.js";
+import { protect } from "../middleware/authMiddleware.js";
 import mongoose from "mongoose";
 
 const router = Router();
