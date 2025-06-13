@@ -92,6 +92,7 @@ router.post(
       success: true,
       message: "Login successful.",
       user: userWithoutPassword,
+      token,
     });
   })
 );
