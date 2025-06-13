@@ -11,9 +11,6 @@ connectDB();
 
 const app = express();
 
-const host = process.env.HOST!;
-const port = Number(process.env.PORT)!;
-
 app.use(
   cors({
     origin: process.env.FRONTEND_URL,
@@ -27,8 +24,10 @@ app.use(urlencoded({ extended: true }));
 app.use("/api/notes", noteRoutes);
 app.use("/api/users", userRoutes);
 
-app.listen(port, host, 0, () => {
-  console.log(`> Server running on ${host}:${port}`);
+const port = Number(process.env.PORT) || 10000;
+
+app.listen(port, () => {
+  console.log(`> Server running on port ${port}`);
 });
 
 export default app;
