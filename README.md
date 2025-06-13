@@ -1,10 +1,10 @@
-# Project: Noted.
+# Noted.
 
-## 👥 Team Information
+## Team Information
 
 - **Team Members**: Giorgi Chapidze
 
-## 🎯 Project Vision
+## Project Vision
 
 **Problem Statement**: People often capture thoughts, links, or todos across multiple apps and lose track. Noted. offers a minimalist and accessible place to store and organize notes.
 
@@ -12,95 +12,102 @@
 
 **Value Proposition**: Cross-platform accessibility, markdown support, and a clean UX with fast performance.
 
-Sure — here is your updated `README.md` with the revised **API Design** and **Database Schema** sections to reflect your code more accurately:
-
 ---
 
-## 🏗️ Architecture & Technical Design
+## Architecture & Technical Design
 
 ### Tech Stack
 
 - **Frontend**: React + TypeScript
-
-  - **Routing**: React Router
-  - **Data Fetching & Caching**: React Query
-
-- **Backend**: Node.js + TypeScript
+- **Backend**: Node.js + TypeScript with Express
 - **Database**: MongoDB
-- **Deployment**: AWS EC2
-- **Testing**: Jest
+- **Authentication**: JSON Web Tokens (JWT)
+- **Deployment**: AWS EC2 (or similar)
+- **Testing**: Jest (planned)
 
-### System Architecture
+### Backend Summary
 
-- **API Design**:
+The backend is built using Express and TypeScript, with a MongoDB database accessed via Mongoose. The backend provides RESTful APIs for users and notes with JWT-based authentication.
 
-  #### 🗒 Notes
+#### Features:
 
-  - `GET /api/notes`: Fetch all notes (optionally filtered by query, tag, favourite)
-  - `GET /api/notes/:id`: Get a single note by ID
-  - `POST /api/notes`: Create a new note
+- **User Authentication**
 
-    - Requires: `title`, `content`, `user`
+  - Register new users (`POST /api/users`)
+  - Login users and issue JWT tokens (`POST /api/users/login`)
+  - Get profile info of authenticated users (`GET /api/users/profile`)
 
-  - `PUT /api/notes/:id`: Update a note
+- **Notes Management**
+  - Get all notes for authenticated user (`GET /api/notes`)
+  - Create a new note (`POST /api/notes`)
+  - Search notes with filters like query text, tag, and favourite (`GET /api/notes/search`)
+  - Fetch unique tags used by the user (`GET /api/notes/tags`)
 
-    - Accepts: `title`, `content`, `url`, `tags`, `favourite`
+#### Authentication Flow
 
-  - `DELETE /api/notes/:id`: Delete a note
-  - `GET /api/notes/search`: Search notes by `query`, `tag`, or `favourite`
-
-  #### 👤 Users
-
-  - `POST /api/users`: Register new user
-
-    - Requires: `name`, `email`, `password`
-
-  - `POST /api/users/login`: Login
-
-    - Requires: `email`, `password`
-
-  - `POST /api/users/logout`: Logout (clears cookie)
-  - `GET /api/users/profile`: Get current authenticated user's profile _(Protected)_
-
-- **Database Schema**:
-
-  ```ts
-  Note {
-    _id: ObjectId,
-    user: ObjectId,
-    title: string,
-    url?: string,
-    content?: string,
-    tags: string[],
-    favourite: boolean,
-    createdAt: Date,
-    updatedAt: Date
-  }
-  ```
-
-  #### 👤 User
-
-  ```ts
-  User {
-    _id: ObjectId,
-    name: string,
-    email: string,
-    password: string,
-    createdAt: Date,
-    updatedAt: Date
-  }
-  ```
-
-- **Authentication**:
-
-  - **Method**: JSON Web Tokens (JWT)
-  - **Login**: On login, a signed JWT is issued and sent as an HTTP-only cookie
-  - **Storage**: Token is stored in a secure HTTP-only cookie with `SameSite=Strict`
-  - **Middleware**: Protected routes use middleware to validate and decode JWT
+- Users authenticate via JWT tokens.
+- Tokens are sent in the `Authorization` header as `Bearer <token>`.
+- Middleware validates tokens and protects routes.
+- User ID is extracted from the token to query user-specific data.
 
 ---
 
-### 🔑 Key Design Decisions
+### API Design
+
+#### Notes
+
+| Method | Endpoint            | Description                            | Notes                              |
+| ------ | ------------------- | -------------------------------------- | ---------------------------------- |
+| GET    | `/api/notes`        | Fetch all notes for the logged-in user | Requires authentication            |
+| POST   | `/api/notes`        | Create a new note                      | Requires `title` and `content`     |
+| GET    | `/api/notes/search` | Search notes by query, tag, favourite  | Filters supported via query params |
+| GET    | `/api/notes/tags`   | Get unique tags for the user's notes   | Requires authentication            |
+
+#### Users
+
+| Method | Endpoint             | Description                      | Notes                       |
+| ------ | -------------------- | -------------------------------- | --------------------------- |
+| POST   | `/api/users`         | Register a new user              | Password minimum length 6   |
+| POST   | `/api/users/login`   | Login user and receive JWT token | Returns token and user data |
+| GET    | `/api/users/profile` | Get logged-in user's profile     | Requires authentication     |
+
+---
+
+### Database Schema
+
+```ts
+interface Note {
+  _id: ObjectId;
+  user: ObjectId;
+  title: string;
+  url?: string;
+  content?: string;
+  tags: string[];
+  favourite: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+interface User {
+  _id: ObjectId;
+  name: string;
+  email: string;
+  password: string; // hashed
+  createdAt: Date;
+  updatedAt: Date;
+}
+```
+
+**Authentication**:
+
+- **Method**: JSON Web Tokens (JWT)
+- **Login**: On login, a signed JWT is issued and sent as an HTTP-only cookie
+- **Storage**: Token is stored in a secure HTTP-only cookie with `SameSite=Strict`
+- **Middleware**: Protected routes use middleware to validate and decode JWT
+
+---
+
+### Key Design Decisions
 
 - **React with TypeScript**: Ensures type safety and improved DX on the frontend.
 - **React Query**: Handles data fetching, caching, and background sync, minimizing boilerplate.
@@ -110,7 +117,7 @@ Sure — here is your updated `README.md` with the revised **API Design** and **
 
 ---
 
-## 🧪 Test-Driven Development Strategy
+## Test-Driven Development Strategy
 
 - **Core Features to Test**:
 
@@ -122,7 +129,6 @@ Sure — here is your updated `README.md` with the revised **API Design** and **
 - **Testing Approach**:
 
   - **Unit Tests**: For utility functions, API controllers (Jest)
-  - **Integration Tests**: End-to-end API route tests (Supertest + Jest)
   - **Frontend Tests**: Component testing (React Testing Library), with mocked API calls
 
 - **Test Coverage Goals**:
@@ -132,7 +138,7 @@ Sure — here is your updated `README.md` with the revised **API Design** and **
 
 ---
 
-## 📦 Feature Breakdown
+## Feature Breakdown
 
 ## ✅ **Week 1: Notes UI**
 
@@ -165,52 +171,55 @@ Sure — here is your updated `README.md` with the revised **API Design** and **
 
 ### ✅ **Week 4: Create/Edit Note UI**
 
-1. [ ] Build `AddNoteForm` component with title/content fields
-2. [ ] Hook up `AddNoteForm` to backend with mutation
-3. [ ] Build `EditNoteForm` component prefilled with note data
-4. [ ] Hook up `EditNoteForm` to backend mutation
-5. [ ] Add cancel/back navigation between forms and views
+1. [x] Build `AddNote` component with title/content fields
+2. [x] Hook up `AddNote` to backend with mutation
+3. [x] Add cancel/back navigation between forms and views
 
 ---
 
 ### ✅ **Week 5: Polish & Mobile Responsiveness**
 
-1. [ ] Make all views mobile-responsive with CSS media queries or Tailwind
-2. [ ] Add global UI feedback: toasts, modals, or banners for success/errors
-3. [ ] Validate input on all note forms (e.g., title required)
-4. [ ] Add confirm delete dialog for notes
-5. [ ] Apply basic theming: color palette, spacing, consistent typography
+1. [x] Make all views mobile-responsive with CSS media queries or Tailwind
+2. [x] Add global UI feedback: toasts, modals, or banners for success/errors
+3. [x] Validate input on all note forms (e.g., title required)
+4. [x] Add confirm delete dialog for notes
+5. [x] Apply basic theming: color palette, spacing, consistent typography
 
 ---
 
-## 🚀 Deployment Strategy
-
-- **AWS Services**:
-
-  - **EC2**: Hosts Node backend and React frontend
-
-- **Environment Variables**:
-
-  - Use `.env` files (with `dotenv`)
-
-- **Database Hosting**:
-
-  - Use MongoDB
-
-- **Domain & SSL**:
-
-  - Free SSL via Let's Encrypt or ACM + NGINX reverse proxy
+Got it! Here's a tailored **Deployment Strategy** update for your README to reflect your backend on AWS and frontend on Render:
 
 ---
 
-## 🤔 Potential Challenges & Solutions
+## Deployment Strategy
 
-- **Challenge 1**: Sync issues or stale data in UI
+### Backend
 
-  - _Solution_: Use `react-query`'s invalidation and background re-fetch
+- **Hosting**: Deployed on **AWS EC2**
+- **Server**: Runs Node.js + Express app
+- **Environment Variables**: Managed via `.env` files on EC2 instance
+- **Database**: MongoDB hosted either on MongoDB Atlas or a managed MongoDB instance
+- **Security**:
 
-- **Challenge 2**: Managing authentication securely in the browser
+  - JWT secret and DB credentials stored securely as environment variables
 
-  - _Solution_: Use HTTP-only cookies for JWT storage and server-side session validation
+- **Monitoring & Logging**:
+  - Use AWS CloudWatch or third-party logging tools (e.g., Loggly)
+
+### Frontend
+
+- **Hosting**: Deployed on **Render.com**
+- **Build & Deployment**:
+
+  - React app built and deployed via Render’s automated Git integration
+  - Connected to backend via environment variable `VITE_API_URL` pointing to AWS backend URL
+
+- **CORS**:
+
+  - Backend configured to accept requests from frontend domain on Render
+
+- **SSL**:
+
+  - Render provides automatic HTTPS via Let’s Encrypt
 
 ---
