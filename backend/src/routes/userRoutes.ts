@@ -27,24 +27,18 @@ router.post(
         .json({ success: false, message: "User already exists." });
     }
 
-    try {
-      const newUser = await User.create({
-        name,
-        email,
-        password: await bcrypt.hash(password, 10),
-      });
+    const newUser = await User.create({
+      name,
+      email,
+      password: await bcrypt.hash(password, 10),
+    });
 
-      const { password: _, ...userWithoutPassword } = newUser.toObject();
-      res.status(201).json({
-        success: true,
-        user: userWithoutPassword,
-        message: "Registration successful.",
-      });
-    } catch (error) {
-      res
-        .status(500)
-        .json({ success: false, message: "Server error, please try again." });
-    }
+    const { password: _, ...userWithoutPassword } = newUser.toObject();
+    res.status(201).json({
+      success: true,
+      user: userWithoutPassword,
+      message: "Registration successful.",
+    });
   })
 );
 
@@ -69,22 +63,8 @@ router.post(
     }
 
     const jwtSecret = process.env.JWT_SECRET;
-    if (!jwtSecret) {
-      return res.status(500).json({
-        success: false,
-        message: "Server error, JWT secret is missing.",
-      });
-    }
-
-    const token = jwt.sign({ userId: user._id }, jwtSecret, {
+    const token = jwt.sign({ userId: user._id }, jwtSecret!, {
       expiresIn: "30d",
-    });
-
-    res.cookie("jwt", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV !== "development",
-      sameSite: "strict",
-      maxAge: 30 * 24 * 60 * 60 * 1000,
     });
 
     const { password: _, ...userWithoutPassword } = user.toObject();
@@ -94,19 +74,6 @@ router.post(
       user: userWithoutPassword,
       token,
     });
-  })
-);
-
-// Logout user
-router.post(
-  "/logout",
-  asyncHandler(async (_, res) => {
-    res.cookie("jwt", "", {
-      httpOnly: true,
-      expires: new Date(0),
-    });
-
-    res.status(200).json({ success: true, message: "Logout successful." });
   })
 );
 

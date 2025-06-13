@@ -1,28 +1,27 @@
 import { type JSX } from "react";
 import { Container, Nav, Navbar, Offcanvas } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { clearUser } from "../store/userSlice";
-import { Link, NavLink, useNavigate } from "react-router";
-import type { RootState } from "../store/store";
+import { Link, NavLink } from "react-router";
+import type { AppDispatch, RootState } from "../store/store";
 
 import "./styles/NavBar.css";
 import logo from "../assets/logo.png";
+import { logoutUser } from "../store/userActions";
 
 type NavBarProps = {
   expand: "sm" | "md" | "lg";
 };
 
 const NavBar = ({ expand }: NavBarProps): JSX.Element => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
   const user = useSelector((state: RootState) => state.user.user);
 
-  const handleLogout = (e: React.MouseEvent) => {
+  const handleLogout = async (e: React.MouseEvent) => {
     e.preventDefault();
 
-    dispatch(clearUser());
+    await dispatch(logoutUser());
 
-    navigate(-1);
+    location.reload();
   };
 
   return (
