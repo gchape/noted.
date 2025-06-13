@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "start": "tsx src/server.ts",
-    "dev": "nodemon --exec tsx src/server.ts"
+    "start:prod": "node dist/server.js",
+    "dev": "nodemon --exec tsx src/server.ts",
+    "build": "tsc"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.8",
