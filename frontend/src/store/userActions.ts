@@ -23,5 +23,6 @@ export const registerUser =
 
 export const logoutUser = () => async (dispatch: AppDispatch) => {
   await api.post("/api/users/logout");
+  localStorage.removeItem("token");
   dispatch(clearUser());
 };
