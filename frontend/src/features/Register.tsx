@@ -20,7 +20,7 @@ const Register = () => {
     try {
       await dispatch<any>(registerUser(name, email, password));
 
-      navigate(-1);
+      navigate("/login");
     } catch (error: any) {}
 
     setName("");

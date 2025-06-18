@@ -1,7 +1,7 @@
 import { type JSX } from "react";
 import { Container, Nav, Navbar, Offcanvas } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import type { AppDispatch, RootState } from "../store/store";
 
 import "./styles/NavBar.css";
@@ -13,6 +13,7 @@ type NavBarProps = {
 };
 
 const NavBar = ({ expand }: NavBarProps): JSX.Element => {
+  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const user = useSelector((state: RootState) => state.user.user);
 
@@ -20,8 +21,8 @@ const NavBar = ({ expand }: NavBarProps): JSX.Element => {
     e.preventDefault();
 
     await dispatch(logoutUser());
-
     location.reload();
+    navigate("/");
   };
 
   return (
