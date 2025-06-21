@@ -8,7 +8,8 @@ https://github.com/user-attachments/assets/23b3da3e-8cb9-4643-ae1e-399a076c52be
 
 ## Project Vision
 
-**Problem Statement**: People often capture thoughts, links, or todos across multiple apps and lose track. Noted. offers a minimalist and accessible place to store and organize notes.
+**Problem Statement**: People often capture thoughts, links, or todos across multiple apps and lose track. Noted. offers
+a minimalist and accessible place to store and organize notes.
 
 **Target Users**: Students, developers, writers — anyone needing a fast, lightweight, distraction-free notes interface.
 
@@ -29,21 +30,22 @@ https://github.com/user-attachments/assets/23b3da3e-8cb9-4643-ae1e-399a076c52be
 
 ### Backend Summary
 
-The backend is built using Express and TypeScript, with a MongoDB database accessed via Mongoose. The backend provides RESTful APIs for users and notes with JWT-based authentication.
+The backend is built using Express and TypeScript, with a MongoDB database accessed via Mongoose. The backend provides
+RESTful APIs for users and notes with JWT-based authentication.
 
 #### Features:
 
 - **User Authentication**
 
-  - Register new users (`POST /api/users`)
-  - Login users and issue JWT tokens (`POST /api/users/login`)
-  - Get profile info of authenticated users (`GET /api/users/profile`)
+    - Register new users (`POST /api/users`)
+    - Login users and issue JWT tokens (`POST /api/users/login`)
+    - Get profile info of authenticated users (`GET /api/users/profile`)
 
 - **Notes Management**
-  - Get all notes for authenticated user (`GET /api/notes`)
-  - Create a new note (`POST /api/notes`)
-  - Search notes with filters like query text, tag, and favourite (`GET /api/notes/search`)
-  - Fetch unique tags used by the user (`GET /api/notes/tags`)
+    - Get all notes for authenticated user (`GET /api/notes`)
+    - Create a new note (`POST /api/notes`)
+    - Search notes with filters like query text, tag, and favourite (`GET /api/notes/search`)
+    - Fetch unique tags used by the user (`GET /api/notes/tags`)
 
 #### Authentication Flow
 
@@ -59,7 +61,7 @@ The backend is built using Express and TypeScript, with a MongoDB database acces
 #### Notes
 
 | Method | Endpoint            | Description                            | Notes                              |
-| ------ | ------------------- | -------------------------------------- | ---------------------------------- |
+|--------|---------------------|----------------------------------------|------------------------------------|
 | GET    | `/api/notes`        | Fetch all notes for the logged-in user | Requires authentication            |
 | POST   | `/api/notes`        | Create a new note                      | Requires `title` and `content`     |
 | GET    | `/api/notes/search` | Search notes by query, tag, favourite  | Filters supported via query params |
@@ -68,7 +70,7 @@ The backend is built using Express and TypeScript, with a MongoDB database acces
 #### Users
 
 | Method | Endpoint             | Description                      | Notes                       |
-| ------ | -------------------- | -------------------------------- | --------------------------- |
+|--------|----------------------|----------------------------------|-----------------------------|
 | POST   | `/api/users`         | Register a new user              | Password minimum length 6   |
 | POST   | `/api/users/login`   | Login user and receive JWT token | Returns token and user data |
 | GET    | `/api/users/profile` | Get logged-in user's profile     | Requires authentication     |
@@ -79,24 +81,24 @@ The backend is built using Express and TypeScript, with a MongoDB database acces
 
 ```ts
 interface Note {
-  _id: ObjectId;
-  user: ObjectId;
-  title: string;
-  url?: string;
-  content?: string;
-  tags: string[];
-  favourite: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+    _id: ObjectId;
+    user: ObjectId;
+    title: string;
+    url?: string;
+    content?: string;
+    tags: string[];
+    favourite: boolean;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 interface User {
-  _id: ObjectId;
-  name: string;
-  email: string;
-  password: string; // hashed
-  createdAt: Date;
-  updatedAt: Date;
+    _id: ObjectId;
+    name: string;
+    email: string;
+    password: string; // hashed
+    createdAt: Date;
+    updatedAt: Date;
 }
 ```
 
@@ -123,20 +125,20 @@ interface User {
 
 - **Core Features to Test**:
 
-  - Note CRUD operations (API and UI)
-  - Authentication logic
-  - Error handling (e.g., 404 for nonexistent notes)
-  - Form validation and input sanitization
+    - Note CRUD operations (API and UI)
+    - Authentication logic
+    - Error handling (e.g., 404 for nonexistent notes)
+    - Form validation and input sanitization
 
 - **Testing Approach**:
 
-  - **Unit Tests**: For utility functions, API controllers (Jest)
-  - **Frontend Tests**: Component testing (React Testing Library), with mocked API calls
+    - **Unit Tests**: For utility functions, API controllers (Jest)
+    - **Frontend Tests**: Component testing (React Testing Library), with mocked API calls
 
 - **Test Coverage Goals**:
 
-  - Aim for **80%+** code coverage across backend
-  - Cover all **critical UI flows** (create/edit/delete note, auth)
+    - Aim for **80%+** code coverage across backend
+    - Cover all **critical UI flows** (create/edit/delete note, auth)
 
 ---
 
@@ -189,10 +191,6 @@ interface User {
 
 ---
 
-Got it! Here's a tailored **Deployment Strategy** update for your README to reflect your backend on AWS and frontend on Render:
-
----
-
 ## Deployment Strategy
 
 ### Backend
@@ -203,25 +201,23 @@ Got it! Here's a tailored **Deployment Strategy** update for your README to refl
 - **Database**: MongoDB hosted either on MongoDB Atlas or a managed MongoDB instance
 - **Security**:
 
-  - JWT secret and DB credentials stored securely as environment variables
+    - JWT secret and DB credentials stored securely as environment variables
 
 - **Monitoring & Logging**:
-  - Use AWS CloudWatch or third-party logging tools (e.g., Loggly)
+    - Use AWS CloudWatch or third-party logging tools (e.g., Loggly)
 
 ### Frontend
 
 - **Hosting**: Deployed on **Render.com**
 - **Build & Deployment**:
 
-  - React app built and deployed via Render’s automated Git integration
-  - Connected to backend via environment variable `VITE_API_URL` pointing to AWS backend URL
+    - React app built and deployed via Render’s automated Git integration
+    - Connected to backend via environment variable `VITE_API_URL` pointing to AWS backend URL
 
 - **CORS**:
 
-  - Backend configured to accept requests from frontend domain on Render
+    - Backend configured to accept requests from frontend domain on Render
 
 - **SSL**:
 
-  - Render provides automatic HTTPS via Let’s Encrypt
-
----
+    - Render provides automatic HTTPS via Let’s Encrypt
