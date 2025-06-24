@@ -142,54 +142,84 @@ interface User {
 
 ---
 
-## Feature Breakdown
+# Feature Breakdown
 
 ## ✅ **Week 1: Notes UI**
-
-1. [x] Create `NoteList` component to fetch and display user’s notes
+1. [x] Create `NoteList` component to fetch and display user's notes
+   - [Commit: consolidate Notes component, remove delete logic, add tag‐based filtering, and integrate search](https://github.com/gchape/noted./commit/fd2fff6)
 2. [x] Create reusable `NoteCard` or list item UI for each note
+   - [Commit: consolidate Notes component, remove delete logic, add tag‐based filtering, and integrate search](https://github.com/gchape/noted./commit/fd2fff6)
 3. [x] Create `NoteDetail` component to show a single note by ID
+   - [Commit: consolidate Notes component, remove delete logic, add tag‐based filtering, and integrate search](https://github.com/gchape/noted./commit/fd2fff6)
 4. [x] Add loading and error states to queries (React Query)
+   - [Commit: consolidate Notes component, remove delete logic, add tag‐based filtering, and integrate search](https://github.com/gchape/noted./commit/fd2fff6)
 5. [x] Add route structure for `/notes`, `/notes/:id`
+   - [Commit: Refactor frontend layout and routing; remove static HTML entry](https://github.com/gchape/noted./commit/695ae5c)
+   - [Commit: Set up frontend and backend folders, added router to frontend with Home component](https://github.com/gchape/noted./commit/57fa778)
 
 ---
 
 ## ✅ **Week 2: Auth Integration**
-
 1. [x] Connect login form to backend via React Query mutation
+   - [Commit: Refactor user authentication routes and frontend UI; add login/register pages](https://github.com/gchape/noted./commit/97b8378)
 2. [x] Connect register form to backend via mutation
+   - [Commit: Refactor user authentication routes and frontend UI; add login/register pages](https://github.com/gchape/noted./commit/97b8378)
 3. [x] Handle JWT via HTTP-only cookie (test with `withCredentials`)
+   - [Commit: Add token storage on login and include token in API requests for authentication](https://github.com/gchape/noted./commit/6ebd8f8)
+   - [Commit: Add support for JWT token in Authorization header and cookies in protect middleware](https://github.com/gchape/noted./commit/2798cde)
 4. [x] Add protected routes logic based on user auth state
+   - [Commit: remove update note endpoint, secure requests with auth header, set Notes as default route](https://github.com/gchape/noted./commit/41d1186)
 5. [x] Implement logout flow and clear user context
+   - [Commit: Clear token from localStorage on logout to properly update auth state and hide user data after logout](https://github.com/gchape/noted./commit/b35acec)
+   - [Commit: Refactor navigation after logout and registration](https://github.com/gchape/noted./commit/c4aae0d)
 
 ---
 
-### ✅ **Week 3: Authentication UI**
-
+## ✅ **Week 3: Authentication UI**
 1. [x] Set up basic React project structure with routes (`react-router`)
+   - [Commit: Set up frontend and backend folders, added router to frontend with Home component](https://github.com/gchape/noted./commit/57fa778)
 2. [x] Create `Login` form component with input validation
+   - [Commit: Refactor user authentication routes and frontend UI; add login/register pages](https://github.com/gchape/noted./commit/97b8378)
 3. [x] Create `Register` form component with input validation
+   - [Commit: Refactor user authentication routes and frontend UI; add login/register pages](https://github.com/gchape/noted./commit/97b8378)
 4. [x] Add navigation bar with login/logout/register links
+   - [Commit: refine navbar and sidebar styling, add collapsible sidebar with toggle](https://github.com/gchape/noted./commit/38b2c08)
 
 ---
 
-### ✅ **Week 4: Create/Edit Note UI**
-
+## ✅ **Week 4: Create/Edit Note UI**
 1. [x] Build `AddNote` component with title/content fields
+   - [Commit: Refactor auth flow, remove favorites, and add add-note functionality](https://github.com/gchape/noted./commit/3a9a469)
 2. [x] Hook up `AddNote` to backend with mutation
+   - [Commit: Refactor auth flow, remove favorites, and add add-note functionality](https://github.com/gchape/noted./commit/3a9a469)
 3. [x] Add cancel/back navigation between forms and views
+   - [Commit: Refactor navigation after logout and registration](https://github.com/gchape/noted./commit/c4aae0d)
 
 ---
 
-### ✅ **Week 5: Polish & Mobile Responsiveness**
-
+## ✅ **Week 5: Polish & Mobile Responsiveness**
 1. [x] Make all views mobile-responsive with CSS media queries or Tailwind
+   - [Commit: refine navbar and sidebar styling, add collapsible sidebar with toggle](https://github.com/gchape/noted./commit/38b2c08)
 2. [x] Add global UI feedback: toasts, modals, or banners for success/errors
+   - [Commit: consolidate Notes component, remove delete logic, add tag‐based filtering, and integrate search](https://github.com/gchape/noted./commit/fd2fff6)
 3. [x] Validate input on all note forms (e.g., title required)
+   - [Commit: Refactor auth flow, remove favorites, and add add-note functionality](https://github.com/gchape/noted./commit/3a9a469)
 4. [x] Add confirm delete dialog for notes
+   - [Commit: consolidate Notes component, remove delete logic, add tag‐based filtering, and integrate search](https://github.com/gchape/noted./commit/fd2fff6)
 5. [x] Apply basic theming: color palette, spacing, consistent typography
+   - [Commit: refine navbar and sidebar styling, add collapsible sidebar with toggle](https://github.com/gchape/noted./commit/38b2c08)
 
 ---
+
+## 🔧 **Backend Infrastructure**
+- [Commit: set up basic Express server with notes API and MongoDB models for User and Note](https://github.com/gchape/noted./commit/251cdd0)
+- [Commit: add JWT-based user authentication with login, logout, and profile routes](https://github.com/gchape/noted./commit/261bd7d)
+- [Commit: Refactor notes feature: remove noteController, enhance noteModel, and implement full CRUD and search routes](https://github.com/gchape/noted./commit/8f37f0e)
+
+## 📚 **Documentation**
+- [Commit: update README with completed checklist, API routes, and schema details](https://github.com/gchape/noted./commit/e818a3b)
+- [Commit: update README with detailed API design, database schema, and deployment strategy](https://github.com/gchape/noted./commit/9f32813)
+- [Commit: embed demo video in README](https://github.com/gchape/noted./commit/f81627a)
 
 ## Deployment Strategy
 
